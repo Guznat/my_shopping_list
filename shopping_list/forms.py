@@ -1,8 +1,11 @@
 from django import forms
+from .models import Product
 
 
-class ListForm(forms.Form):
+class ListForm(forms.ModelForm):
     name = forms.CharField(max_length=180,
-                           widget=forms.TextInput(
-                               attrs={'class': 'form-control', 'placeholder': 'Enter your product here.',
-                                      'aria-label': 'Shopping List', 'aria-describedby': 'add-btn'}))
+                           widget=forms.TextInput)
+
+    class Meta:
+        model = Product
+        fields = ['name', ]

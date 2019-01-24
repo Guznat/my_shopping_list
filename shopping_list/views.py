@@ -3,21 +3,24 @@ from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from .models import Product
 from .forms import ListForm
+from .api import serializers
 
 
 def shopping_list(request):
-    return render(request, 'shopping_list/shipping_list.html')
+    form = ListForm
+    ctx = {'form': form}
+    return render(request, 'shopping_list/shipping_list.html', ctx)
 
 
-def add_product(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-
-        Product.objects.create(
-            name=name
-        )
-        return HttpResponse('')
-
+# def add_product(request):
+#     if request.method == 'POST':
+#         name = request.POST['name']
+#
+#         Product.objects.create(
+#             name=name
+#         )
+#         return HttpResponse('')
+#
 
 def complete_product(request, id):
     product = Product.objects.get(pk=id)

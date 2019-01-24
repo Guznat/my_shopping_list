@@ -8,7 +8,11 @@
 {% endblock %}
 {% block content %}
     <div class="container-fluid" id="wrapper">
-
+        <form class="form-inline my-2 my-lg-0" method="GET">
+            <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search your list."
+                   value="{{ request.GET.q }}" aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
         <div class="row">
             <div class="col-lg-4 col-lg-offset-4" id="content">
                 <h2 id="h2-title">YOUR SHOPPING LIST</h2>
@@ -16,10 +20,9 @@
                 <form id="new_product_form">{% csrf_token %}
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="text" id="name">
-                            <span class="input-group-btn">
-								  <button type="submit" class="btn btn-default" id="add-btn">Write!</button>
-							  </span>
+                            {{ form.name }}
+                            <button type="submit" class="btn btn-default">Write!</button>
+
                         </div>
                     </div>
                 </form>
@@ -54,45 +57,86 @@
         </div>
     </div>
     {% block script %}
-        <script type="text/javascript">
-            $(document).on('submit', '#new_product_form', function (e) {
-                e.preventDefault();
+        <script>
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/add/',
-                    data: {
-                        name: $('#name').val(),
-                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-                    },
-                    success: function () {
-                        console.log("done")
-                    }
-
-                })
-
-            })
-        </script>
-        <script type="text/javascript">
-
+            function getParameterByName(name, url) {
+                if (!url) url = window.location.href;
+                name = name.replace(/[\[\]]/g, '\\$&');
+                var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                    results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, ' '));
+            }
+            
+            
             $(document).ready(function () {
-                $.ajax({
-                    method: "GET",
-                    url: "{% url 'api_list'%}",
-                    success: function (data) {
-                        $.each(data, function (key, value) {
-                            var productName = value.name;
-                            $("#product-container").append(
-                                "<li>" + productName + "</li>"
-                            )
+
+                var query = getParameterByName('q');
+                var productList = [];
 
 
-                        })
+                function attachProduct(productValue, prepend) {
+                    var productName = productValue.name;
+                    var productFormattedHtml = "<li>" + productName + "</li>";
+                    if (prepend == true) {
+                        $("#product-container").prepend(productFormattedHtml)
+
+                    } else {
+                        $("#product-container").append(productFormattedHtml)
 
                     }
+
+                }
+
+
+                function parseProduct() {
+                    
+                    $.each(productList, function (key, value) {
+                        var productKey = key;
+                        attachProduct(value)
+                    })
+                }
+
+                function fetchProducts() {
+                    console.log('Fetching...');
+                    $.ajax({
+                    method: "GET",
+                        url: "/api/list/",
+                        data: {
+                            "q": query
+                        },
+                    success: function (data) {
+                        productList = data;
+                        parseProduct();
+                    }
+                    });
+                }
+
+                fetchProducts();
+
+                $('#new_product_form').submit(function (event) {
+                    event.preventDefault();
+
+                    var this_ = $(this);
+                    //console.log(event);
+                    var formData = this_.serialize();
+
+                    $.ajax({
+                        method: "POST",
+                        url: "/api/create/",
+                        data: formData,
+
+                        success: function (data) {
+                            attachProduct(data)
+                        }
+                    });
                 })
 
-            })
+
+            });
         </script>
+
     {% endblock %}
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 {% endblock %}

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shopping_list.apps.ShoppingListConfig',
-    'rest_framework'
+    'rest_framework',
+    'bootstrapform',
 ]
 
 MIDDLEWARE = [
