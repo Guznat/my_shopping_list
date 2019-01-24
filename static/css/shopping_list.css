@@ -1,0 +1,47 @@
+body {
+    background: darkgreen;
+    font-family: 'Oswald', 'Futura', sans-serif;
+}
+
+div#wrapper {
+    margin-top: 10% !important;
+    margin-left: 35%;
+}
+
+#content {
+    background: darkorange;
+    padding: 25px;
+    font-family: "Nimbus Sans L";
+}
+
+h2#h2-title {
+    color: darkgreen;
+}
+
+#content > h2 {
+    font-size: 18px;
+    text-align: center;
+    padding-top: 0;
+}
+
+.t10 {
+    margin-top: 10px;
+}
+
+.t20 {
+    margin-top: 20px;
+}
+
+.todo-completed {
+    text-decoration: ActiveBorder;
+    background: rgba(150, 150, 150, .3);
+}
+
+footer {
+    margin-top: 20px;
+    color: white;
+}
+
+.list-group-item {
+    color: black;
+}

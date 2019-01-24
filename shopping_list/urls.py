@@ -1,7 +1,11 @@
-from django.contrib import admin
 from django.urls import path
-from .views import ShoppingListView
+
+from . import views
 
 urlpatterns = [
-    path('', ShoppingListView.as_view(), name='shopping_list')
+    path('', views.shopping_list, name='index'),
+    path('add/', views.add_product, name='add'),
+    path('complete/<id>', views.complete_product, name='complete'),
+    path('deletecomplete', views.checked_delete, name='deletecomplete'),
+    path('deleteall', views.delete_all, name='deleteall')
 ]
