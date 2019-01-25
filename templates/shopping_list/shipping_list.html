@@ -8,11 +8,11 @@
 {% endblock %}
 {% block content %}
     <div class="container-fluid" id="wrapper">
-        <form class="form-inline my-2 my-lg-0" method="GET">
-            <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search your list."
-                   value="{{ request.GET.q }}" aria-label="Search">
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        {#        <form class="form-inline my-2 my-lg-0" method="GET">#}
+        {#            <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search your list."#}
+        {#                   value="{{ request.GET.q }}" aria-label="Search">#}
+        {#            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>#}
+        {#        </form>#}
         <div class="row">
             <div class="col-lg-4 col-lg-offset-4" id="content">
                 <h2 id="h2-title">YOUR SHOPPING LIST</h2>
@@ -49,9 +49,12 @@
                 </div>
 
                 <ul class="list-group t20">
-                    <div id="product-container">
+                    <form id='form-product'>
+                        {% csrf_token %}
+                        <div id="product-container">
 
-                    </div>
+                        </div>
+                    </form>
                 </ul>
             </div>
         </div>
@@ -78,7 +81,9 @@
 
                 function attachProduct(productValue, prepend) {
                     var productName = productValue.name;
-                    var productFormattedHtml = "<li>" + productName + "</li>";
+                    var productId = productValue.id;
+                    var productClicked = productValue.complete;
+                    var productFormattedHtml = "<div id='" + productId + "'>" + "<button type=\"button\" class=\"btn btn-warning\" id='complete-button'>" + productName + "</button>" + "</div>";
                     if (prepend == true) {
                         $("#product-container").prepend(productFormattedHtml)
 
@@ -87,11 +92,36 @@
 
                     }
 
+
+                    $("#form-product").on('click', "#" + productId, function (event) {
+
+                        event.preventDefault();
+                        var this_ = $(this);
+                        var formDataC = this_.serialize();
+                        console.log('dupa');
+                        $.ajax({
+                            method: "POST",
+                            url: "/api/update/" + productId,
+                            data: formDataC,
+
+                            success: function (data) {
+                                console.log('dupa2');
+                                if (productClicked == false) {
+                                    productClicked = true
+                                } else {
+                                    productClicked = false
+                                }
+                                parseProduct()
+                            }
+                        })
+                    });
+
+
                 }
 
 
                 function parseProduct() {
-                    
+
                     $.each(productList, function (key, value) {
                         var productKey = key;
                         attachProduct(value)
@@ -128,13 +158,15 @@
                         data: formData,
 
                         success: function (data) {
-                            attachProduct(data)
+                            this_.find("input[type=text], textarea").val('');
+                            attachProduct(data, true);
+
                         }
                     });
-                })
+                });
 
 
-            });
+            })
         </script>
 
     {% endblock %}

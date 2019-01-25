@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from .models import Product
 from .forms import ListForm
+from django.views.generic import RedirectView
 from .api import serializers
 
 
@@ -40,3 +41,10 @@ def delete_all(request):
     Product.objects.all().delete()
 
     return redirect('index')
+
+# class ProductCompliteRedirect(RedirectView):
+#     def get_redirect_url(self, *args, **kwargs):
+#         id_ = self.kwargs.get("id")
+#         print(id_)
+#         obj = get_object_or_404(Product, pk=id_)
+#         return obj.get_absolute_url()

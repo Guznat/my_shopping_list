@@ -1,7 +1,10 @@
 from rest_framework import generics
 from django.db.models import Q
-from .serializers import ProductModelSerializer
+from .serializers import ProductModelSerializer, ProductUpdateSerializer
 from shopping_list.models import Product
+from rest_framework.views import APIView
+from rest_framework import authentication, permissions
+from rest_framework.response import Response
 
 
 class ProductListAPIView(generics.ListAPIView):
@@ -19,3 +22,9 @@ class ProductListAPIView(generics.ListAPIView):
 
 class ProductCreateAPIView(generics.CreateAPIView):
     serializer_class = ProductModelSerializer
+
+
+class CompleteProductAPIView(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductUpdateSerializer
+    permission_classes = (permissions.AllowAny,)

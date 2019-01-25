@@ -1,5 +1,5 @@
 body {
-    background: darkgreen;
+    background: lightgoldenrodyellow;
     font-family: 'Oswald', 'Futura', sans-serif;
 }
 
@@ -9,13 +9,14 @@ div#wrapper {
 }
 
 #content {
-    background: darkorange;
+    background: saddlebrown;
     padding: 25px;
     font-family: "Nimbus Sans L";
 }
 
 h2#h2-title {
-    color: darkgreen;
+    color: lightgoldenrodyellow;
+    font-size: large;
 }
 
 #content > h2 {
