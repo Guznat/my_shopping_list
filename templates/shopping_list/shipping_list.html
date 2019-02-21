@@ -31,13 +31,6 @@
                     <div class="col-lg-12">
                         <div class="btn-toolbar">
                             <div class="btn-group">
-                                <a href="{% url 'deletecomplete' %}">
-                                    <button type="button" class="btn btn-warning">
-                                        <i class="glyphicon glyphicon-trash"></i> DELETE CHECKED
-                                    </button>
-                                </a>
-                            </div>
-                            <div class="btn-group">
                                 <a href="{% url 'deleteall' %}">
                                     <button type="button" class="btn btn-warning">
                                         <i class="glyphicon glyphicon-trash"></i> DELETE ALL
@@ -98,14 +91,14 @@
                         event.preventDefault();
                         var this_ = $(this);
                         var formDataC = this_.serialize();
-                        console.log('dupa');
+                        console.log('debug');
                         $.ajax({
                             method: "POST",
                             url: "/api/update/" + productId,
                             data: formDataC,
 
                             success: function (data) {
-                                console.log('dupa2');
+                                console.log('debug2');
                                 if (productClicked == false) {
                                     productClicked = true
                                 } else {

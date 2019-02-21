@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shopping_list.apps.ShoppingListConfig',
+    'accounts',
     'rest_framework',
     'bootstrapform',
 ]
@@ -128,3 +129,10 @@ STATIC_URL = '/static/'
 #         'rest_framework.permissions.AllowAny',
 #     )
 # }
+
+
+# Redirect after user log/out
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'login'
