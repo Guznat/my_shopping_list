@@ -131,7 +131,7 @@ STATIC_URL = '/static/'
 # }
 
 
-# Redirect after user log/out
+# Redirect after user log/out#s
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'

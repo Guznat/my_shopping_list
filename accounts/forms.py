@@ -13,6 +13,6 @@ class CreateUserForm(forms.Form):
         data = self.cleaned_data
         if data['password'] != data['confirm_password']:
             raise forms.ValidationError('Password is not the same.')
-        if User.objects.filter(username=data['login']):
+        if User.objects.filter(username=data['login']):  # s
             raise forms.ValidationError('User already exist.')
         return data

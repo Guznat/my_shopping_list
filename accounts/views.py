@@ -30,3 +30,4 @@ class AddUserView(View):
             login(request, user)
             return redirect(reverse('index'))
         return render(request, 'registration/signup.html', ctx)
+    # s

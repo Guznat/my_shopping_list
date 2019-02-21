@@ -5,7 +5,7 @@
 {% block content %}
     <h2>Rejestracja</h2>
     <form method="post">
-        {% csrf_token %}
+        {% csrf_token %}#s
         {{ form|bootstrap_horizontal }}
         <button type="submit" class="btn btn-success">Sign Up! <i class="fas fa-sign-in-alt"></i></button>
     </form>
